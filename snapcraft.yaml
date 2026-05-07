@@ -1,13 +1,13 @@
-name: tpm2-tools-with-provider
-version: "5.7"
-summary: TPM 2.0 utilities with OpenSSL tpm2 provider
-description: |
-  tpm2-tools + tpm2-openssl provider.
-  Connect after install: snap connect tpm2-tools-with-provider:tpm :tpm
-
-confinement: strict
-grade: stable
+name: tpm2tss-snapcraft
 base: core22
+version: '1.2.0'
+summary: Snap package for OpenSSL TPM2-TSS engine
+description: |
+  This snap stages OpenSSL together with the TPM2-TSS engine and tools,
+  making the TPM2 engine available inside the snap runtime.
+
+grade: stable
+confinement: strict
 
 apps:
   openssl:
