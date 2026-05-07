@@ -9,10 +9,9 @@ confinement: strict
 grade: stable
 base: core24
 
-apps:
-  dummy:
-    command: usr/bin/true
-    plugs: [tpm]
+plugs:
+  tpm:
+    interface: tpm
 
 parts:
   tpm2-provider:
@@ -26,6 +25,3 @@ parts:
     prime:
       - usr/lib/x86_64-linux-gnu/ossl-modules/tpm2.so
       - usr/lib/x86_64-linux-gnu/libtss2-*.so*
-    override-pull: |
-      apt-cache search tpm2 | grep openssl
-      craftctl default
