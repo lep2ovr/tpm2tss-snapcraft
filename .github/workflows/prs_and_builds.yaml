@@ -5,8 +5,15 @@ on:
   push:
 
 jobs:
+  find-package:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Search for tpm2 openssl package
+        run: apt-cache search tpm2 | grep -i openssl
+
   build:
+    needs: find-package
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - uses: snapcore/action-build@v1
+      - uses: actions/checkout@v4
+      - uses: snapcore/action-build@v1
