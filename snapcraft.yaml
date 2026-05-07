@@ -1,0 +1,74 @@
+name: tpm2-tools-with-provider
+version: "5.7"
+summary: TPM 2.0 utilities with OpenSSL tpm2 provider
+description: |
+  tpm2-tools + tpm2-openssl provider.
+  Connect after install: snap connect tpm2-tools-with-provider:tpm :tpm
+
+confinement: strict
+grade: stable
+base: core22
+
+apps:
+  openssl:
+    command: usr/bin/openssl
+    environment:
+      OPENSSL_MODULES: $SNAP/usr/lib/x86_64-linux-gnu/ossl-modules
+    plugs: [tpm]
+
+parts:
+  tpm2-tss:
+    plugin: autotools
+    source: https://github.com/tpm2-software/tpm2-tss
+    source-type: git
+    source-tag: 4.1.0
+    autotools-configure-parameters:
+      - --prefix=/usr
+      - --enable-fapi
+      - --with-crypto=ossl
+      - --disable-doxygen-doc
+    build-packages:
+      - autoconf
+      - autoconf-archive
+      - libtool
+      - gcc
+      - libgcrypt20-dev
+      - libjson-c-dev
+      - libssl-dev
+      - libltdl-dev
+      - libcurl4-openssl-dev
+    stage-packages:
+      - libcurl4
+      - libssl3
+      - libjson-c5
+    prime:
+      - -include
+
+  tpm2-openssl:
+    plugin: autotools
+    source: https://github.com/tpm2-software/tpm2-openssl
+    source-type: git
+    source-tag: 1.2.0
+    autotools-configure-parameters:
+      - --prefix=/usr
+      - --with-modulesdir=/usr/lib/x86_64-linux-gnu/ossl-modules
+    build-packages:
+      - autoconf
+      - autoconf-archive
+      - pkg-config
+      - libssl-dev
+      - libtool
+    after:
+      - tpm2-tss
+    prime:
+      - usr/lib/x86_64-linux-gnu/ossl-modules/tpm2.so
+
+  openssl:
+    plugin: nil
+    stage-packages:
+      - openssl
+    prime:
+      - usr/bin/openssl
+      - usr/lib/x86_64-linux-gnu/libssl*
+      - usr/lib/x86_64-linux-gnu/libcrypto*
+      - usr/lib/x86_64-linux-gnu/ossl-modules/
