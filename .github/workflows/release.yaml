@@ -28,5 +28,5 @@ jobs:
         with:
           tag_name: ${{ github.event.inputs.tag }}
           name: ${{ github.event.inputs.tag }}
-          files: ${{ steps.snap.outputs.file }}
+          files: ${{ steps.snap.outputs.snap }}
           generate_release_notes: true
