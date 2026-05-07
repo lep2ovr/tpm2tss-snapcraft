@@ -15,55 +15,14 @@ apps:
     plugs: [tpm]
 
 parts:
-  tpm2-tss:
-    plugin: autotools
-    source: https://github.com/tpm2-software/tpm2-tss
-    source-type: git
-    source-tag: 4.1.0
-    autotools-configure-parameters:
-      - --prefix=/usr
-      - --enable-fapi
-      - --with-crypto=ossl
-      - --disable-doxygen-doc
-    build-packages:
-      - autoconf
-      - autoconf-archive
-      - libtool
-      - gcc
-      - libgcrypt20-dev
-      - libjson-c-dev
-      - libssl-dev
-      - libltdl-dev
-      - libcurl4-openssl-dev
-      - uuid-dev
+  tpm2-provider:
+    plugin: nil
     stage-packages:
-      - libcurl4
-      - libssl3
-      - libjson-c5
-    prime:
-      - -include
-
-  tpm2-openssl:
-    plugin: autotools
-    source: https://github.com/tpm2-software/tpm2-openssl
-    source-type: git
-    source-tag: 1.2.0
-    autotools-configure-parameters:
-      - --prefix=/usr
-      - --with-modulesdir=/usr/lib/x86_64-linux-gnu/ossl-modules
-    build-packages:
-      - autoconf
-      - autoconf-archive
-      - pkg-config
-      - libssl-dev
-      - libtool
-    build-environment:
-      - PKG_CONFIG_PATH: $SNAPCRAFT_STAGE/usr/lib/pkgconfig
-      - LD_LIBRARY_PATH: $SNAPCRAFT_STAGE/usr/lib
-      - LDFLAGS: -L$SNAPCRAFT_STAGE/usr/lib
-      - CFLAGS: -I$SNAPCRAFT_STAGE/usr/include
-    after:
-      - tpm2-tss
+      - libtpm2-openssl-dev
+      - libtss2-esys-3.0.2-0
+      - libtss2-tctildr0
+      - libtss2-rc0
+      - libtss2-mu-4.0.1-0
     prime:
       - usr/lib/x86_64-linux-gnu/ossl-modules/tpm2.so
-      - usr/lib/libtss2-*.so*
+      - usr/lib/x86_64-linux-gnu/libtss2-*.so*
