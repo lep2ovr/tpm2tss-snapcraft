@@ -59,6 +59,11 @@ parts:
       - pkg-config
       - libssl-dev
       - libtool
+    build-environment:
+      - PKG_CONFIG_PATH: $SNAPCRAFT_STAGE/usr/lib/pkgconfig:$PKG_CONFIG_PATH
+      - LD_LIBRARY_PATH: $SNAPCRAFT_STAGE/usr/lib:$LD_LIBRARY_PATH
+      - LDFLAGS: -L$SNAPCRAFT_STAGE/usr/lib
+      - CFLAGS: -I$SNAPCRAFT_STAGE/usr/include
     after:
       - tpm2-tss
     prime:
