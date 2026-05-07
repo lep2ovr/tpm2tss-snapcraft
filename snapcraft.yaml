@@ -1,5 +1,5 @@
 name: tpm2-tools-with-provider
-version: "5.7"
+version: "1.0"
 summary: TPM 2.0 utilities with OpenSSL tpm2 provider
 description: |
   tpm2-tools + tpm2-openssl provider.

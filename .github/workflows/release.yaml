@@ -1,0 +1,35 @@
+name: Manual snap build and release
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag (e.g. v1.0)"
+        required: true
+        default: "v1.0"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install snapcraft
+        run: sudo snap install snapcraft --classic
+
+      - name: Build snap
+        run: snapcraft
+
+      - name: Find snap file
+        id: snap
+        run: echo "file=$(ls *.snap | head -1)" >> $GITHUB_OUTPUT
+
+      - name: Create GitHub release and upload snap
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ github.event.inputs.tag }}
+          name: ${{ github.event.inputs.tag }}
+          files: ${{ steps.snap.outputs.file }}
+          generate_release_notes: true
