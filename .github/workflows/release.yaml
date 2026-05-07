@@ -15,16 +15,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Install snapcraft
-        run: sudo snap install snapcraft --classic
-
+      
       - name: Build snap
-        run: snapcraft
-
-      - name: Find snap file
+        uses: snapcore/action-build@v1
         id: snap
-        run: echo "file=$(ls *.snap | head -1)" >> $GITHUB_OUTPUT
 
       - name: Create GitHub release and upload snap
         uses: softprops/action-gh-release@v1
