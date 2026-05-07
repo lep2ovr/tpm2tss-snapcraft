@@ -26,3 +26,6 @@ parts:
     prime:
       - usr/lib/x86_64-linux-gnu/ossl-modules/tpm2.so
       - usr/lib/x86_64-linux-gnu/libtss2-*.so*
+    override-pull: |
+      apt-cache search tpm2 | grep openssl
+      craftctl default
