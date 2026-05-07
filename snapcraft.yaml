@@ -1,0 +1,25 @@
+name: tpm2tss-snapcraft
+base: core22
+version: '1.2.0'
+summary: Snap package for OpenSSL TPM2-TSS engine
+description: |
+  This snap stages OpenSSL together with the TPM2-TSS engine and tools,
+  making the TPM2 engine available inside the snap runtime.
+
+grade: stable
+confinement: strict
+
+apps:
+  openssl:
+    command: usr/bin/openssl
+    environment:
+      OPENSSL_ENGINES: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET/engines-3
+
+parts:
+  tpm2tss-engine:
+    plugin: nil
+    stage-packages:
+      - openssl
+      - libengine-tpm2-tss-openssl
+      - tpm2-tss-engine-tools
+      - tpm2-tools
